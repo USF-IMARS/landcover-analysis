@@ -1,4 +1,3 @@
-#!/bin/env python3
 """test that we can open the .shp files"""
 
 from osgeo import ogr, osr
