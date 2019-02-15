@@ -86,7 +86,7 @@ H, xedges, yedges = np.histogram2d(
     # weights=???,
     # bins=(10, 10)
 )
-
+H = H.T
 # print("{} \n\tvs \n{}".format(xbins, xedges))
 print(H)
 
@@ -103,8 +103,15 @@ for i in range(len(all_x)):
 
 axScatter.legend(fontsize='small')
 
-axHistx.set_xlim(axScatter.get_xlim())
-axHisty.set_ylim(axScatter.get_ylim())
+h_min, h_max = axScatter.get_xlim()
+v_min, v_max = axScatter.get_ylim()
+print(
+    "scatter limits:\n\t{:+05.2f}\n{:+05.2f}\t\t{:+05.2f}\n\t{:+05.2f}".format(
+        v_max, h_min, h_max, v_min
+    )
+)
+axHistx.set_xlim((h_min, h_max))
+axHisty.set_ylim((v_min, v_max))
 
 # print("adding histogram heatmap")
 # # axScatter.imshow(
@@ -129,6 +136,25 @@ axHisty.set_ylim(axScatter.get_ylim())
 # img = geotiler.render_map(mm)
 # axScatter.imshow(img)
 #
-#
+print("contouring scatter")
+# re-histogram with lots of bins:
+H, xedges, yedges = np.histogram2d(
+    X, Y,
+    # weights=???,
+    bins=(25, 25)
+)
+H = H.T
+print(H)
+levels = (10, 20, 40, 80, 160, 320, 640, 1080)
+# extent = [h_min, h_max, v_min, v_max]
+extent = [min(X), max(X), min(Y), max(Y)]
+print("extent:", extent)
+axScatter.contour(
+    H, levels,
+    extent=extent,
+    origin='lower',
+    colors=['gray']*len(levels),
+    linewidths=[1]*len(levels),
+)
 print("showing plot...")
 plt.show()
