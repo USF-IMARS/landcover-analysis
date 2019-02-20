@@ -1,0 +1,10 @@
+# local data files:
+data/
+*.ntf
+*.NTF
+*.png
+*.xml
+*.csv
+
+# python stuff
+*.pyc
