@@ -66,9 +66,9 @@ def open_test(fpath):
     ))
     return n_features, n_fields
 
-for fpath in glob.glob('data/GTPs_touse_points_*_test.shp'):
+for fpath in glob.glob('data/GTPs_touse_points_*_train.shp'):
     fname = fpath.split('/')[-1]
     print(" === ", fname)
-    cover_class = fname.split("points_")[1].split("_test")[0]
+    cover_class = fname.split("points_")[1].split("_train")[0]
     print(cover_class)
     open_test(fpath)
