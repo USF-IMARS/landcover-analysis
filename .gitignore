@@ -5,6 +5,7 @@ data/
 *.png
 *.xml
 *.csv
+*.tif
 
 # python stuff
 *.pyc
