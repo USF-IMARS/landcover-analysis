@@ -1,10 +1,12 @@
 from math import sqrt
+
 from osgeo import gdal
 from osgeo import osr
 import numpy as np
+import pandas as pd
 
 
-def read_bands_at(fpath, points):
+def read_bands_at(fpath, points, longformat=False):
     """
     read image at fpath and return bands.
 
@@ -19,9 +21,9 @@ def read_bands_at(fpath, points):
         [[band1, band2], [band1, band2]] band values for each point requested
         list returned is in same order as points.
     """
-    fpath = "16FEB12162517-M1BS-057380245010_01_P001.NTF"
     # === open the file & get the pixel values at this pixel
     ds = gdal.Open(fpath)
+    assert ds is not None
     # get georeference info
     # === assert transform is null?
     print("pre-calc-geo:")
@@ -92,12 +94,56 @@ def read_bands_at(fpath, points):
     #     y_skew,
     #     y_res,
     # ]
+    print("{} @ {},{} [{}x{}]".format(
+        fpath, p1.GCPX, p1.GCPY, x_res, y_res
+    ))
+    if longformat:
+        return _read_bands_to_pandas_dataframe(ds, points)
+    else:  # wide format
+        return _read_bands_to_numpy_array(ds, points)
+
+
+def _read_bands_to_pandas_dataframe(ds, points):
+    """
+    Returns "long-format" pandas dataframe.
+    """
+    raise NotImplementedError("NYI: longformat")
+    res = pd.DataFrame()
+    for band_n in range(ds.RasterCount):
+        band = ds.GetRasterBand(band_n+1)  # 1-based index
+        data = band.ReadAsArray()
+        for point_n, point in enumerate(points):
+            x = point[0]
+            y = point[1]
+            xOffset, yOffset = _get_offsets(ds, x, y)
+            try:
+                value = data[yOffset][xOffset]
+                print("band {} {},{} (point#{})= {}".format(
+                    band_n, xOffset, yOffset, point_n, value
+                ))
+                res.append({
+                    'band_n': band_n,
+                    'pixel_value': value,
+                    'x': x,
+                    'y': y
+                })
+            except IndexError:
+                print("point {},{} is out-of-image".format(yOffset, xOffset))
+    return res
+
+
+def _get_offsets(ds, x, y):
+    """returns index for x,y locations in ds raster bands"""
     (
         xOrigin, pixelWidth, xskew, yOrigin, yskew, pixelHeight
     ) = ds.GetGeoTransform()
-    print("{} @ {},{} px={}x{}".format(
-        fpath, xOrigin, yOrigin, pixelWidth, pixelHeight
-    ))
+    xOffset = int((x - xOrigin) / pixelWidth)
+    yOffset = int((y - yOrigin) / pixelHeight)
+    return xOffset, yOffset
+
+
+def _read_bands_to_numpy_array(ds, points):
+
     band_values = np.array([[float('nan')]*ds.RasterCount]*len(points))
     for band_n in range(ds.RasterCount):
         band = ds.GetRasterBand(band_n+1)  # 1-based index
@@ -107,9 +153,7 @@ def read_bands_at(fpath, points):
             x = point[0]
             y = point[1]
             # print("reading @ {},{}".format(x, y))
-            xOffset = int((x - xOrigin) / pixelWidth)
-            yOffset = int((y - yOrigin) / pixelHeight)
-
+            xOffset, yOffset = _get_offsets(ds, x, y)
             # get individual pixel values
             try:
                 value = data[yOffset][xOffset]

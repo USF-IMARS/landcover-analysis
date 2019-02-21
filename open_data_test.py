@@ -10,6 +10,7 @@ pp = pprint.PrettyPrinter(indent=4)
 def doProjection(feature, transform):
     pt = feature.GetGeometryRef()
     pt.Transform(transform)
+    print("({}, {}),".format(pt.GetPoint()[0], pt.GetPoint()[1]))
     return pt.GetPoint()[0:2]
 
 
@@ -66,9 +67,11 @@ def open_test(fpath):
     ))
     return n_features, n_fields
 
-for fpath in glob.glob('data/GTPs_touse_points_*_train.shp'):
-    fname = fpath.split('/')[-1]
-    print(" === ", fname)
-    cover_class = fname.split("points_")[1].split("_train")[0]
-    print(cover_class)
-    open_test(fpath)
+
+def test_open_all_train_files():
+    for fpath in glob.glob('data/GTPs_touse_points_*_train.shp'):
+        fname = fpath.split('/')[-1]
+        print(" === ", fname)
+        cover_class = fname.split("points_")[1].split("_train")[0]
+        print(cover_class)
+        open_test(fpath)
