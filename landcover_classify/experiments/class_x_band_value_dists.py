@@ -23,7 +23,8 @@ def main():
     )
     for fpath in glob.glob(TRAIN_GLOB):
         points = get_points_from_shapefile(fpath)
-        ntf_path = '16FEB12162517-M1BS-057380245010_01_P001.NTF'
+        # ntf_path = '16FEB12162517-M1BS-057380245010_01_P001.NTF'
+        ntf_path = '16FEB12162517-M1BS-_RB_Rrs.tif'
         df = read_bands_at(ntf_path, points, longformat=True)
         cover_class = fpath.split("use_points_")[1].split("_t")[0]
         df['cover_class'] = cover_class
