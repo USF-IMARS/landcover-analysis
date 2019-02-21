@@ -84,8 +84,8 @@ def read_bands_at(fpath, points, longformat=False):
         y_skew,
         y_res,
     ])
-    print("post-calc-geo:")
-    print(ds.GetGeoTransform())
+    # print("post-calc-geo:")
+    # print(ds.GetGeoTransform())
     # assert ds.GetGeoTransform() == [
     #     p1.GCPX,
     #     x_res,
@@ -107,8 +107,9 @@ def _read_bands_to_pandas_dataframe(ds, points):
     """
     Returns "long-format" pandas dataframe.
     """
-    raise NotImplementedError("NYI: longformat")
-    res = pd.DataFrame()
+    res = pd.DataFrame(
+        columns=['band_n', 'pixel_value', 'x', 'y']
+    )
     for band_n in range(ds.RasterCount):
         band = ds.GetRasterBand(band_n+1)  # 1-based index
         data = band.ReadAsArray()
@@ -118,17 +119,18 @@ def _read_bands_to_pandas_dataframe(ds, points):
             xOffset, yOffset = _get_offsets(ds, x, y)
             try:
                 value = data[yOffset][xOffset]
-                print("band {} {},{} (point#{})= {}".format(
-                    band_n, xOffset, yOffset, point_n, value
-                ))
-                res.append({
+                # print("band {} {},{} (point#{})= {}".format(
+                #     band_n, xOffset, yOffset, point_n, value
+                # ))
+                res = res.append({
                     'band_n': band_n,
                     'pixel_value': value,
                     'x': x,
                     'y': y
-                })
+                }, ignore_index=True)
             except IndexError:
-                print("point {},{} is out-of-image".format(yOffset, xOffset))
+                # print("point {},{} is out-of-image".format(yOffset, xOffset))
+                pass
     return res
 
 
