@@ -1,40 +1,18 @@
 """test that we can open the .shp files"""
 
-from osgeo import ogr, osr
+from osgeo import ogr
+
+from landcover_classify.get_points_from_shapefile \
+    import get_points_from_shapefile
 
 import glob
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 
-def doProjection(feature, transform):
-    pt = feature.GetGeometryRef()
-    pt.Transform(transform)
-    print("({}, {}),".format(pt.GetPoint()[0], pt.GetPoint()[1]))
-    return pt.GetPoint()[0:2]
-
-
-def returnCoordSet(inputlayer):
-    driver = ogr.GetDriverByName('ESRI Shapefile')
-    # 0 means read-only, 1 means writeable
-    dataSource = driver.Open(inputlayer, 0)
-    layer = dataSource.GetLayer()
-    sourceprj = layer.GetSpatialRef()
-    targetprj = osr.SpatialReference()
-    targetprj.ImportFromEPSG(4326)
-    transform = osr.CoordinateTransformation(sourceprj, targetprj)
-    transformed_coords = []
-    # feature = layer.GetFeature(i)
-    for feature in layer:
-        # exported = json.loads(feature.ExportToJson())
-        # print(exported['properties'].keys())
-        transformed_coords.append(doProjection(feature, transform))
-    return transformed_coords
-
-
 def open_test(fpath):
     # === projected points
-    points = returnCoordSet(fpath)
+    points = get_points_from_shapefile(fpath)
     # pp.pprint(points)
 
     # === print layer fields
