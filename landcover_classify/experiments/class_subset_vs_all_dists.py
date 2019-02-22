@@ -57,6 +57,8 @@ def main():
     df[tgt_key].loc[df[tgt_key] == tgt_class] = 'yes'
     df[tgt_key].loc[df[tgt_key] != 'yes'] = 'no'
 
+    df.to_csv(tgt_key + ".csv")
+
     # === restructure bands for violinplot
     # ref: https://stackoverflow.com/a/46134162/1483986
     df = df.melt(
