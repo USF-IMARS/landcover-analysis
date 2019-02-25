@@ -91,7 +91,8 @@ for ds_cnt, ds in enumerate(datasets):
                          np.arange(y_min, y_max, h))
 
     # TODO: plotting methods here assume we are using only 2 dimensions
-    #       need to modify for higher-dimensional projection to 2d
+    #       need to modify for higher-dimensional projection to 2d eg:
+    # https://stackoverflow.com/questions/37718347/plotting-decision-boundary-for-high-dimension-data
 
     # just plot the dataset first
     cm = plt.cm.RdBu

@@ -1,4 +1,10 @@
 """2d histogram plot """
+
+# TODO: add basemap eg:
+# http://alimanfoo.github.io/2016/10/04/plotting-african-ecosystems.html
+# https://github.com/mapbox/rasterio
+# https://www.ssec.wisc.edu/software/polar2grid/getting_started.html
+# https://github.com/pysal/legendgram
 import numpy as np
 from osgeo import ogr
 from osgeo import osr
