@@ -28,6 +28,7 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 print(__doc__)
 
+# TODO: this should be 8-bands!
 BAND_COLUMNS = ['band'+str(n) for n in range(2)]  # band0, band1, etc
 h = .02  # step size in the mesh
 

@@ -15,6 +15,7 @@ from landcover_classify.read_bands_at \
 
 TRAIN_GLOB = 'data/GTPs_touse_points_*_train.shp'
 BAND_COLUMNS = ['band'+str(n) for n in range(8)]  # band0, band1, etc
+NTF_OR_RRS = "ntf"
 
 
 def main():
@@ -25,8 +26,12 @@ def main():
     )
     for fpath in glob.glob(TRAIN_GLOB):
         points = get_points_from_shapefile(fpath)
-        # src_file = '16FEB12162517-M1BS-057380245010_01_P001.NTF'
-        src_file = '16FEB12162517-M1BS-_RB_Rrs.tif'
+        if NTF_OR_RRS == "ntf":
+            src_file = '16FEB12162517-M1BS-057380245010_01_P001.NTF'
+        elif NTF_OR_RRS == "rrs":
+            src_file = '16FEB12162517-M1BS-_RB_Rrs.tif'
+        else:
+            raise ValueError("need to set ntf or rrs")
         band_arry = read_bands_at(src_file, points, longformat=False)
         class_df = pd.DataFrame(
             band_arry,
@@ -38,6 +43,8 @@ def main():
         class_df['cover_class'] = cover_class
         class_df['src_file'] = src_file
         df = df.append(class_df)
+
+    df.to_csv("master_dataframe_{}.csv".format(NTF_OR_RRS))
 
     # === subset the results
     # exclude glint-free water
@@ -57,7 +64,7 @@ def main():
     df[tgt_key].loc[df[tgt_key] == tgt_class] = 'yes'
     df[tgt_key].loc[df[tgt_key] != 'yes'] = 'no'
 
-    df.to_csv(tgt_key + ".csv")
+    df.to_csv("{}_{}.csv".format(tgt_key, NTF_OR_RRS))
 
     # === restructure bands for violinplot
     # ref: https://stackoverflow.com/a/46134162/1483986
@@ -77,7 +84,9 @@ def main():
         split=True
     )
     plt.show()
-    plt.savefig(fname="subset_{}_bands.png".format(tgt_class.lower()))
+    plt.savefig(fname="subset_{}_bands_{}.png".format(
+        tgt_class.lower(), NTF_OR_RRS
+    ))
 
 if __name__ == "__main__":
     main()
