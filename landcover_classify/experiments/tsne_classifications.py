@@ -1,12 +1,8 @@
 """
-Comparison of classifiers.
+t-distributed Stochastic Neighbor Embedding (t-SNE) visualization of classes
+in hyperplane.
 
-Based on sklearn classifier comparison ref:
-https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
-Code source: Gaël Varoquaux
-          Andreas Müller
-Modified for documentation by Jaques Grobler
-Original License: BSD 3 clause
+Based on: https://blog.applied.ai/visualising-high-dimensional-data/
 """
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -23,16 +19,20 @@ NTF_OR_RRS = "ntf"
 
 
 def main():
+    # master_dataframe_ is exported by class_subset_vs_all_dists
     df = pd.read_csv('master_dataframe_{}.csv'.format(NTF_OR_RRS))
     df = df.dropna()
 
-    tsne = TSNE(n_components=2, random_state=0)
+    tsne = TSNE(
+        n_components=2, random_state=0,
+        perplexity=30  # should be ~ size of smallest expected cluster
+    )
     dfsvd = df[BAND_COLUMNS]
     print(dfsvd.shape)
     print("building tsne using :")
     print(dfsvd.head())
 
-    # import pdb; pdb.set_trace()
+    # TODO: should we scale here or use raw values?
     X = StandardScaler().fit_transform(dfsvd.values)
     # X = dfsvd.values
     Z = tsne.fit_transform(X)
