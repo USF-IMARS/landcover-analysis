@@ -15,7 +15,7 @@ from landcover_classify.read_bands_at \
 
 TRAIN_GLOB = 'data/GTPs_touse_points_*_train.shp'
 BAND_COLUMNS = ['band'+str(n) for n in range(8)]  # band0, band1, etc
-NTF_OR_RRS = "ntf"
+NTF_OR_RRS = "rrs"
 
 
 def main():
