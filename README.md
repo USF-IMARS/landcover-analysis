@@ -1,3 +1,11 @@
+# Ground-truth Data Sources
+## implemented:
+* Mike's transects
+
+## Not Yet Implemented:
+* [FLUCCS data from SFWMD](https://geo-sfwmd.opendata.arcgis.com/datasets/d5d63afb753a4e0389f3a4641c8ae950_0)
+* Mustang Island (& other?) LIDAR-based land classes
+
 # TODO:
 0. select area of tsne & plot onto spatial map
 
