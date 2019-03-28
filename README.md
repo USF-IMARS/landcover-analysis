@@ -25,3 +25,10 @@
     * which classes can we classify best?
 
 4. wv2 decision tree for azure is ready soon from Matt
+
+# Installing
+To install pygdal:
+```
+yum install -y gdal-devel
+pip install pygdal=="`gdal-config --version`.*"'
+```
