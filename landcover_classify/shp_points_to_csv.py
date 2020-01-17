@@ -1,5 +1,6 @@
 """open all "train" .shp files and write x,y,z,class to csv file"""
 import glob
+from datetime import datetime
 
 import pandas as pd
 from osgeo import osr
@@ -24,8 +25,17 @@ for fpath in glob.glob('data/GTPs_touse_points_*_train.shp'):
         pt = feature.GetGeometryRef()
         pt.Transform(transform)
         lat, lon, alt = pt.GetPoint()
+        date_field = feature.GetFieldAsDateTime('DATE_')
+        month = date_field[1]
+        if month > 12 or month < 1:
+            month = 'NA'
+        # Others that might be intersting:
+        # feature.GetFeature('CERP_Class')
+        # feature.GetFeature('SC_Class')
+        # also the species-specific counts (but all I see is 0 and null)
         df = df.append({
-            "lat": lat, "lon": lon, "alt": alt, "cover_class": cover_class
+            "lat": lat, "lon": lon, "alt": alt, "cover_class": cover_class,
+            "month": month
         }, ignore_index=True)
         n_pts += 1
     print("{} pts added.".format(n_pts))

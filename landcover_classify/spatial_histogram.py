@@ -163,4 +163,4 @@ axScatter.contour(
     linewidths=[1]*len(levels),
 )
 print("showing plot...")
-plt.show()
+plt.savefig("figures/hist.png")
