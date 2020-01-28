@@ -2,6 +2,7 @@
 Put shapefiles with Mike's transect ground truth data into `data`.
 Run `python landcover_classify/shp_points_to_csv.py` to create `landclasses_master_pointlist.csv`.
 
+`python -m landcover_classify.experiments.class_subset_vs_all_dists` to create mangrove subset with sat band values added.
 ----------------------------------------------------------------------------
 
 # Ground-truth Data Sources
@@ -37,4 +38,5 @@ To install pygdal:
 ```
 yum install -y gdal-devel
 pip install pygdal=="`gdal-config --version`.*"'
+pip install -e .
 ```
