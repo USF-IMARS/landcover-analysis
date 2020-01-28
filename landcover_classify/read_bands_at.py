@@ -105,7 +105,8 @@ def _get_offsets(ds, x, y):
 
 
 def _read_bands_to_numpy_array(ds, points):
-
+    out_of_image_pts = 0
+    in_image_pts = 0
     band_values = np.array([[float('nan')]*ds.RasterCount]*len(points))
     for band_n in range(ds.RasterCount):
         band = ds.GetRasterBand(band_n+1)  # 1-based index
@@ -123,8 +124,13 @@ def _read_bands_to_numpy_array(ds, points):
                     band_n, xOffset, yOffset, point_n, value
                 ))
                 band_values[point_n, band_n] = value
+                in_image_pts += 1
             except IndexError:
-                print("point {},{} is out-of-image".format(yOffset, xOffset))
+                # print("point {},{} is out-of-image".format(yOffset, xOffset))
+                out_of_image_pts += 1
+    print("{}/{} pts in-image".format(
+        in_image_pts, in_image_pts + out_of_image_pts
+    ))
 
     return band_values
 
