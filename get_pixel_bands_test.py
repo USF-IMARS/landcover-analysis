@@ -151,3 +151,7 @@ def test_get_pixel_bands():
 
     ax = sns.violinplot(data=bandvals, split=True)
     # plt.show()
+
+
+if __name__ == "__main__":
+    test_get_pixel_bands()
