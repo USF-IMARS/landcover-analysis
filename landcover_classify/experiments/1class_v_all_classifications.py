@@ -7,6 +7,10 @@ Code source: Gaël Varoquaux
           Andreas Müller
 Modified for documentation by Jaques Grobler
 Original License: BSD 3 clause
+
+Uses input `is_mangrove.csv` with columns:
+,band0,band1,band2,band3,band4,band5,band6,band7,is_mangrove,src_file,x,y
+
 """
 import numpy as np
 import pandas as pd
@@ -27,6 +31,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 print(__doc__)
+
+IN_FILE = 'is_mangrove.csv'
 
 # TODO: this should be 8-bands!
 BAND_COLUMNS = ['band'+str(n) for n in range(2)]  # band0, band1, etc
@@ -64,7 +70,7 @@ datasets_o = [
 #     ([1,2,3], [0,0,1])
 #     (X      , y      )
 # ]
-df = pd.read_csv('is_mangrove.csv')
+df = pd.read_csv(IN_FILE)
 
 data_values = df[BAND_COLUMNS].values
 df[df.is_mangrove == 'yes'] = 1
