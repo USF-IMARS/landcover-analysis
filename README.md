@@ -34,9 +34,14 @@ Run `python landcover_classify/shp_points_to_csv.py` to create `landclasses_mast
 4. wv2 decision tree for azure is ready soon from Matt
 
 # Installing
-To install pygdal:
 ```
+# install pygdal
 yum install -y gdal-devel
 pip install pygdal=="`gdal-config --version`.*"'
+
+# install other requirements
 pip install -e .
+
+# run tests to check installation
+pytest --ignore images
 ```
