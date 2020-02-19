@@ -19,6 +19,22 @@ nullfmt = NullFormatter()         # no labels
 # start with a rectangular Figure
 plt.figure(1, figsize=(8, 8))
 
+# === plot image raster
+print('reading image...')
+# img = gdal.Open(img_path).ReadAsArray()
+# axis = plt.gca()
+with rasterio.open(img_path) as img:
+    with rasterio.vrt.WarpedVRT(
+        img, crs='epsg:4326', resampling=rasterio.enums.Resampling.bilinear
+    ) as vrt:
+        print('drawing image...')
+        # plt.imshow(img.read(1))
+        show(
+            img, zorder=1
+        )
+        # plt.imshow(vrt)
+# plt.imshow(img[0, :, :])  # shows just first of the 8 bands
+
 
 # === plot points
 print("reading data")
@@ -46,24 +62,9 @@ for fpath in glob.glob('data/GTPs_touse_points_*_train.shp'):
     axis = plt.scatter(
         x, y,
         marker='+', linewidth=1,
-        label="{:03}:{}".format(len(x), cover_class), zorder=1
+        label="{:03}:{}".format(len(x), cover_class), zorder=2
     )
 
-
-# === plot image raster
-print('reading image...')
-# img = gdal.Open(img_path).ReadAsArray()
-# axis = plt.gca()
-with rasterio.open(img_path) as img:
-    with rasterio.vrt.WarpedVRT(
-        img, crs='epsg:4326', resampling=rasterio.enums.Resampling.bilinear
-    ) as vrt:
-        print('drawing image...')
-        axis = show(
-            img, title='???', ax=axis, zorder=2
-        )
-        # plt.imshow(vrt)
-# plt.imshow(img[0, :, :])  # shows just first of the 8 bands
 
 print("showing plot...")
 plt.show()
