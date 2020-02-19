@@ -81,7 +81,8 @@ def _read_bands_to_pandas_dataframe(ds, points):
                 }, ignore_index=True)
                 pts_in_bounds += 1
             except IndexError:
-                # print("point {},{} is out-of-image".format(yOffset, xOffset))
+                print("point {},{} is out-of-image".format(yOffset, xOffset))
+                print("image size {}x{}".format(len(data), len(data[0])))
                 pts_out_bounds += 1
     # should be multiple of # of bands
     pts_in_bounds /= ds.RasterCount
@@ -94,7 +95,7 @@ def _read_bands_to_pandas_dataframe(ds, points):
     return res
 
 
-def _get_offsets(ds, x, y):
+def _get_offsets(ds, y, x):
     """returns index for x,y locations in ds raster bands"""
     (
         xOrigin, pixelWidth, xskew, yOrigin, yskew, pixelHeight
@@ -126,7 +127,8 @@ def _read_bands_to_numpy_array(ds, points):
                 band_values[point_n, band_n] = value
                 in_image_pts += 1
             except IndexError:
-                # print("point {},{} is out-of-image".format(yOffset, xOffset))
+                print("point {},{} is out-of-image".format(yOffset, xOffset))
+                print("image size {}x{}".format(len(data), len(data[0])))
                 out_of_image_pts += 1
     print("{}/{} pts in-image".format(
         in_image_pts, in_image_pts + out_of_image_pts
