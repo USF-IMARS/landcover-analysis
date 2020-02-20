@@ -100,6 +100,9 @@ def _get_offsets(ds, y, x):
     (
         xOrigin, pixelWidth, xskew, yOrigin, yskew, pixelHeight
     ) = ds.GetGeoTransform()
+    print('getting {:.2f},{:.2f} near origin {:.2f},{:.2f}'.format(
+        x, y, xOrigin, yOrigin
+    ))
     xOffset = int((x - xOrigin) / pixelWidth)
     yOffset = int((y - yOrigin) / pixelHeight)
     return xOffset, yOffset

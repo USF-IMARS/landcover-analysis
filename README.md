@@ -2,7 +2,7 @@
 Put shapefiles with Mike's transect ground truth data into `data`.
 Run `python landcover_classify/shp_points_to_csv.py` to create `landclasses_master_pointlist.csv`.
 
-`python -m landcover_classify.experiments.class_subset_vs_all_dists` to create mangrove subset with sat band values added.
+`python -m landcover_classify.shapefile_points_to_master_rrs_csv images/tif_rrs_wv2/*` to add band values from image at all known points from shapefiles.
 ----------------------------------------------------------------------------
 
 # Ground-truth Data Sources
