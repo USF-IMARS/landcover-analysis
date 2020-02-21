@@ -30,6 +30,23 @@ class Test_read_bands_at(TestCase):
             decimal=5
         )
 
+    # def test_read_point_out_of_frame(self):
+    #     """ Read one point from outside of the image """
+    #     result = read_bands_at(
+    #         '16FEB12162517-M1BS-_RB_Rrs.tiff',
+    #         [[-89.735270, 20.932147]],
+    #         longformat=False
+    #     )
+    #     print(result)
+    #     np.testing.assert_almost_equal(
+    #         result,
+    #         [[
+    #             0.083664, 0.160671, 0.209449, 0.186279, 0.170908, 0.086403,
+    #             0.045154, 0.017258
+    #         ]],
+    #         decimal=5
+    #     )
+
     def test_read_one_point_longformat(self):
         """ Read one point from middle of the image """
         result = read_bands_at(
