@@ -38,13 +38,8 @@ class Test_read_bands_at(TestCase):
             longformat=False
         )
         print(result)
-        np.testing.assert_almost_equal(
-            result,
-            [[
-                0.083664, 0.160671, 0.209449, 0.186279, 0.170908, 0.086403,
-                0.045154, 0.017258
-            ]],
-            decimal=5
+        self.assertTrue(
+            np.all(np.isnan(result))
         )
 
     def test_read_one_point_longformat(self):
