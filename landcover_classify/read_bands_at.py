@@ -81,8 +81,9 @@ def _read_bands_to_pandas_dataframe(ds, points):
                 }, ignore_index=True)
                 pts_in_bounds += 1
             except IndexError:
-                print("point {},{} is out-of-image".format(yOffset, xOffset))
-                print("image size {}x{}".format(len(data), len(data[0])))
+                print("point {},{} is out-of-image size {}x{}".format(
+                    yOffset, xOffset, len(data), len(data[0]))
+                )
                 pts_out_bounds += 1
     # should be multiple of # of bands
     pts_in_bounds /= ds.RasterCount

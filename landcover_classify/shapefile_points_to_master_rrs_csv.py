@@ -33,7 +33,10 @@ def main(tif_files):
         points = get_points_from_shapefile(fpath)
         for src_file in tif_files:
             class_df = get_image_band_columns_at_point(src_file, points, fpath)
-            df = df.append(class_df)
+            if class_df is not None:
+                print('points being added to dataFrame')
+                df = df.append(class_df)
+            # else point is outside of image
 
     df.drop_duplicates().reset_index(drop=True)
     df.to_csv(DATAFRAME_FILE)
