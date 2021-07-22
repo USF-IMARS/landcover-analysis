@@ -1,8 +1,11 @@
 
-Put shapefiles with Mike's transect ground truth data into `data`.
-Run `python landcover_classify/shp_points_to_csv.py` to create `landclasses_master_pointlist.csv`.
+## usage
+
+1. Put shapefiles with Mike's transect ground truth data into `data` (download from gdrive [here](https://drive.google.com/file/d/1WwoUsooz9DRqpa7c36wS8c_qulM929rF/view?usp=sharing)).
+2. Run `python landcover_classify/shp_points_to_csv.py` to create `landclasses_master_pointlist.csv`.
 
 `python -m landcover_classify.shapefile_points_to_master_rrs_csv images/tif_rrs_wv2/*` to add band values from image at all known points from shapefiles.
+
 ----------------------------------------------------------------------------
 
 # Ground-truth Data Sources
